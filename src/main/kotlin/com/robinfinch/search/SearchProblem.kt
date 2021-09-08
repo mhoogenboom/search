@@ -11,13 +11,13 @@ open class SearchProblem<S : State, A: Action>(
     val goalFunction: (S) -> Boolean
 ) {
 
-    fun search(strategy: Strategy<S>) : List<Action>? {
+    fun search(strategy: Strategy<S, A>) : List<A>? {
 
         val costPerState = mutableMapOf<S, Int>()
 
         val fringe = PriorityQueue(strategy)
 
-        val root = SearchNode(initialState)
+        val root = SearchNode<S, A>(initialState)
         add(root, fringe, costPerState)
 
         while (fringe.isNotEmpty()) {
@@ -33,7 +33,7 @@ open class SearchProblem<S : State, A: Action>(
         return null
     }
 
-    private fun expand(node: SearchNode<S>, fringe: PriorityQueue<SearchNode<S>>, costPerState: MutableMap<S, Int>) {
+    private fun expand(node: SearchNode<S, A>, fringe: PriorityQueue<SearchNode<S, A>>, costPerState: MutableMap<S, Int>) {
         successorFunction(node.state).forEach { (action, state) ->
             val successor = SearchNode(
                 node,
@@ -46,7 +46,7 @@ open class SearchProblem<S : State, A: Action>(
         }
     }
 
-    private fun add(node: SearchNode<S>, fringe: PriorityQueue<SearchNode<S>>, costPerState: MutableMap<S, Int>) {
+    private fun add(node: SearchNode<S, A>, fringe: PriorityQueue<SearchNode<S, A>>, costPerState: MutableMap<S, Int>) {
 
         val cost = costPerState[node.state]
 
