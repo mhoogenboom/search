@@ -11,7 +11,7 @@ open class SearchProblem<S : State, A: Action>(
     val goalFunction: (S) -> Boolean
 ) {
 
-    fun search(strategy: Strategy<S, A>) : List<A>? {
+    fun search(strategy: Strategy<S, A>) : Solution<A> {
 
         val costPerState = mutableMapOf<S, Int>()
 
@@ -20,17 +20,21 @@ open class SearchProblem<S : State, A: Action>(
         val root = SearchNode<S, A>(initialState)
         add(root, fringe, costPerState)
 
+        var expandedNodes = 0
+
         while (fringe.isNotEmpty()) {
             val node = fringe.poll()
 
             if (goalFunction(node.state)) {
-                return node.path
+                return Solution(node.path, expandedNodes)
             }
 
             expand(node, fringe, costPerState)
+
+            expandedNodes++
         }
 
-        return null
+        return Solution(null, expandedNodes)
     }
 
     private fun expand(node: SearchNode<S, A>, fringe: PriorityQueue<SearchNode<S, A>>, costPerState: MutableMap<S, Int>) {
@@ -58,4 +62,7 @@ open class SearchProblem<S : State, A: Action>(
             fringe.offer(node)
         }
     }
+
+    fun apply(solution: Solution<A>): S? =
+        solution.path?.fold(initialState) { state, action -> successorFunction(state).getValue(action) }
 }
