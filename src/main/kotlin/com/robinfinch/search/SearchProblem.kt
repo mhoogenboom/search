@@ -2,6 +2,7 @@ package com.robinfinch.search
 
 import com.robinfinch.search.statespace.Action
 import com.robinfinch.search.statespace.State
+import com.robinfinch.search.strategy.Strategy
 import java.util.PriorityQueue
 
 open class SearchProblem<S : State, A: Action>(

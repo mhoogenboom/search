@@ -1,7 +1,7 @@
-package com.robinfinch.search.strategy
+package com.robinfinch.search.strategy.uninformed
 
 import com.robinfinch.search.SearchNode
-import com.robinfinch.search.Strategy
+import com.robinfinch.search.strategy.Strategy
 import com.robinfinch.search.statespace.Action
 import com.robinfinch.search.statespace.State
 
