@@ -1,5 +1,6 @@
 package com.robinfinch.search.romaniatour
 
+import com.robinfinch.search.strategy.informed.AStarSearch
 import com.robinfinch.search.strategy.informed.GreedySearch
 import com.robinfinch.search.strategy.uninformed.BreadthFirstSearch
 import com.robinfinch.search.strategy.uninformed.DepthFirstSearch
@@ -69,6 +70,24 @@ class RomaniaTourTests {
         assertEquals(3, solution.path?.size)
         assertEquals(450, solution.cost) // not optimal
         assertEquals(3, solution.expandedNodes)
+
+        val goalState = romaniaTour.apply(solution) ?: throw NullPointerException()
+
+        assertEquals(RomaniaTour.bucharest, goalState)
+    }
+
+    @Test
+    fun aStarSearch() {
+
+        val romaniaTour = RomaniaTour()
+
+        val strategy = AStarSearch<Town, Road> { node -> node.state.distanceToBucharest }
+
+        val solution = romaniaTour.search(strategy)
+
+        assertEquals(4, solution.path?.size)
+        assertEquals(418, solution.cost)
+        assertEquals(5, solution.expandedNodes)
 
         val goalState = romaniaTour.apply(solution) ?: throw NullPointerException()
 
