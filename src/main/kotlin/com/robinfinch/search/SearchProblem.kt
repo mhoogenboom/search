@@ -26,7 +26,7 @@ open class SearchProblem<S : State, A: Action>(
             val node = fringe.poll()
 
             if (goalFunction(node.state)) {
-                return Solution(node.path, expandedNodes)
+                return Solution(node.path, node.cost, expandedNodes)
             }
 
             expand(node, fringe, costPerState)
@@ -34,7 +34,7 @@ open class SearchProblem<S : State, A: Action>(
             expandedNodes++
         }
 
-        return Solution(null, expandedNodes)
+        return Solution(null, 0, expandedNodes)
     }
 
     private fun expand(node: SearchNode<S, A>, fringe: PriorityQueue<SearchNode<S, A>>, costPerState: MutableMap<S, Int>) {

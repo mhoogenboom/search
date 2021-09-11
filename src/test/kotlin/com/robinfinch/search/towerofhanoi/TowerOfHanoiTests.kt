@@ -1,9 +1,8 @@
-package com.robinfinch.search
+package com.robinfinch.search.towerofhanoi
 
 import com.robinfinch.search.strategy.BreadthFirstSearch
 import com.robinfinch.search.strategy.DepthFirstSearch
 import com.robinfinch.search.strategy.UniformCostSearch
-import com.robinfinch.search.towerofhanoi.TowerOfHanoi
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -17,6 +16,7 @@ class TowerOfHanoiTests {
         val solution = towerOfHanoi.search(BreadthFirstSearch())
 
         assertEquals(31, solution.path?.size)
+        assertEquals(31, solution.cost)
         assertEquals(242, solution.expandedNodes)
 
         val goalState = towerOfHanoi.apply(solution) ?: throw NullPointerException()
@@ -32,6 +32,7 @@ class TowerOfHanoiTests {
         val solution = towerOfHanoi.search(DepthFirstSearch())
 
         assertEquals(81, solution.path?.size) // not optimal
+        assertEquals(81, solution.cost)
         assertEquals(1315, solution.expandedNodes)
 
         val goalState = towerOfHanoi.apply(solution) ?: throw NullPointerException()
@@ -48,6 +49,7 @@ class TowerOfHanoiTests {
         val solution = towerOfHanoi.search(UniformCostSearch())
 
         assertEquals(31, solution.path?.size)
+        assertEquals(31, solution.cost)
         assertEquals(242, solution.expandedNodes)
 
         val goalState = towerOfHanoi.apply(solution) ?: throw NullPointerException()
